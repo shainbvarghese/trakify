@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -26,59 +27,61 @@ const PublicRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route 
-            path="/register" 
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            } 
-          />
-          <Route 
-            path="/login" 
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            } 
-          />
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route 
+              path="/register" 
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              } 
+            />
+            <Route 
+              path="/login" 
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              } 
+            />
 
-          {/* Protected Routes with Layout */}
-          <Route
-            path="/"
-            element={<ProtectedRoute><Layout /></ProtectedRoute>}
-          >
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="expenses" element={<Expenses />} />
-            <Route path="charts" element={<Charts />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="contact" element={<Contact />} />
-          </Route>
+            {/* Protected Routes with Layout */}
+            <Route
+              path="/"
+              element={<ProtectedRoute><Layout /></ProtectedRoute>}
+            >
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="expenses" element={<Expenses />} />
+              <Route path="charts" element={<Charts />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
 
-          {/* Catch all route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        
-        {/* Toast Container */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </div>
-    </Router>
+            {/* Catch all route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          
+          {/* Toast Container */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

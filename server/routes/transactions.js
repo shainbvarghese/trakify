@@ -4,7 +4,9 @@ const auth = require('../middleware/auth');
 const { 
   addTransaction, 
   getTransactions, 
-  getTransactionStats 
+  getTransactionStats,
+  updateTransaction,
+  deleteTransaction
 } = require('../controllers/transactionController');
 
 // All routes require authentication
@@ -18,5 +20,11 @@ router.get('/', getTransactions);
 
 // GET /api/transactions/stats - Get transaction statistics
 router.get('/stats', getTransactionStats);
+
+// PUT /api/transactions/:id - Update a transaction
+router.put('/:id', updateTransaction);
+
+// DELETE /api/transactions/:id - Delete a transaction
+router.delete('/:id', deleteTransaction);
 
 module.exports = router; 

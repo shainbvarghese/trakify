@@ -50,11 +50,19 @@ export const transactionAPI = {
   addTransaction: (transactionData) => api.post('/transactions', transactionData),
   getTransactions: (params) => api.get('/transactions', { params }),
   getTransactionStats: () => api.get('/transactions/stats'),
+  updateTransaction: (id, transactionData) => api.put(`/transactions/${id}`, transactionData),
+  deleteTransaction: (id) => api.delete(`/transactions/${id}`),
 };
 
 // Contact API functions
 export const contactAPI = {
   sendMessage: (data) => api.post('/contact', data),
+};
+
+// Notification API functions
+export const notificationAPI = {
+  getNotifications: () => api.get('/notifications'),
+  markAllAsRead: () => api.post('/notifications/mark-all-read'),
 };
 
 // Export the api instance for other uses

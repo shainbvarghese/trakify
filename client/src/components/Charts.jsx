@@ -61,18 +61,15 @@ const Charts = () => {
     fetchChartData();
   }, []);
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(value);
+  const formatAmount = (value) => {
+    return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '/-';
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-medium">{`${label}: ${formatCurrency(payload[0].value)}`}</p>
+          <p className="font-medium">{`${label}: ${formatAmount(payload[0].value)}`}</p>
         </div>
       );
     }
@@ -108,6 +105,8 @@ const Charts = () => {
     );
   }
 
+  console.log('incomeExpenseData:', incomeExpenseData);
+
   return (
     <div className="space-y-8">
       {/* Income vs Expense Bar Chart */}
@@ -118,7 +117,7 @@ const Charts = () => {
             <BarChart data={incomeExpenseData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis tickFormatter={(value) => `$${value}`} />
+              <YAxis tickFormatter={(value) => value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '/-'} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar dataKey="amount" fill="#8884d8" />
@@ -180,7 +179,7 @@ const Charts = () => {
                   <span className="text-sm text-gray-700">{category.name}</span>
                 </div>
                 <span className="text-sm font-medium text-gray-900">
-                  {formatCurrency(category.value)}
+                  {formatAmount(category.value)}
                 </span>
               </div>
             ))}
@@ -193,13 +192,13 @@ const Charts = () => {
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600">Total Income:</span>
               <span className="text-sm font-medium text-green-600">
-                {formatCurrency(incomeExpenseData[0]?.amount || 0)}
+                {formatAmount(incomeExpenseData[0]?.amount || 0)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600">Total Expenses:</span>
               <span className="text-sm font-medium text-red-600">
-                {formatCurrency(incomeExpenseData[1]?.amount || 0)}
+                {formatAmount(incomeExpenseData[1]?.amount || 0)}
               </span>
             </div>
             <div className="border-t pt-3">
@@ -210,7 +209,7 @@ const Charts = () => {
                     ? 'text-green-600' 
                     : 'text-red-600'
                 }`}>
-                  {formatCurrency((incomeExpenseData[0]?.amount || 0) - (incomeExpenseData[1]?.amount || 0))}
+                  {formatAmount((incomeExpenseData[0]?.amount || 0) - (incomeExpenseData[1]?.amount || 0))}
                 </span>
               </div>
             </div>

@@ -1,0 +1,141 @@
+Trackify - Personal Finance Dashboard
+
+---
+
+**Project Overview**
+Trackify is a full-stack MERN (MongoDB, Express, React, Node.js) personal finance dashboard app. It enables users to manage their finances, track expenses and income, visualize data, and receive notifications, all within a modern glassmorphism UI supporting light/dark themes.
+
+---
+
+**Technologies Used**
+- Frontend: React, React Router, Tailwind CSS, Axios, React Toastify
+- Backend: Node.js, Express, MongoDB, Mongoose, JWT, Multer
+- Other: LocalStorage, React Context API, RESTful APIs
+
+---
+
+**Frontend Architecture**
+- **Entry:** `src/main.jsx`, `src/App.jsx`
+- **Routing:** Public (Home, Login, Register), Protected (Dashboard, Expenses, Charts, Profile, Contact)
+- **Layout:** Navbar, Sidebar, main content area
+- **Components:**
+  - Navbar (notifications, theme toggle, user menu)
+  - Sidebar (navigation, user info)
+  - ThemeToggleButton, GlassCard, TransactionTable, TransactionForm, LoadingSpinner, ErrorBoundary, Charts
+- **Pages:** Home, Register, Login, Dashboard, Expenses, Charts, Profile, Contact
+- **Contexts:** ThemeContext (light/dark mode)
+- **Utils:** API (axios instance, all API calls), storage (localStorage helpers), constants
+- **Styling:** Tailwind CSS, glassmorphism, dark mode
+- **Assets:** Logo, images
+
+---
+
+**Backend Architecture**
+- **Entry:** `server.js` (Express app, MongoDB connection, route registration)
+- **Routes:**
+  - `/api/auth` (register, login, profile)
+  - `/api/transactions` (CRUD, stats)
+  - `/api/categories` (CRUD, defaults)
+  - `/api/contact` (contact messages)
+  - `/api/notifications` (get, create, mark as read)
+  - `/api/health` (health check)
+- **Controllers:** transactionController, notificationController
+- **Models:** User, Transaction, Category, Notification, ContactMessage
+- **Middleware:** auth (JWT), upload (Multer)
+- **Scripts:** seed.js (demo data)
+
+---
+
+**Data Models**
+- **User:** username, email, password (hashed), profilePic, fullName, age, gender, phone
+- **Transaction:** amount, type (income/expense), category, note, userId, date
+- **Category:** user, name, type, color, icon, isDefault
+- **Notification:** user, type, title, message, read, timestamps
+- **ContactMessage:** name, email, message
+
+---
+
+**Key Features**
+- User authentication (JWT, protected routes)
+- Add, edit, delete, and view transactions
+- Category management (default and custom)
+- Profile management (edit info, upload profile pic, view stats)
+- Real notifications (fetched from backend, mark all as read)
+- Contact support form
+- Glassmorphism UI, light/dark mode
+- Responsive design
+- Error handling and toast notifications
+
+---
+
+**How It Works**
+- Frontend communicates with backend via RESTful APIs for all data (auth, transactions, categories, notifications, contact)
+- Backend uses MongoDB for persistent storage, with Mongoose models for all entities
+- Notifications are stored per user and fetched live in the navbar
+- Theme and user session are persisted in localStorage
+
+---
+
+**Extensibility**
+- Modular codebase, easy to add new features (e.g., budgets, recurring transactions, more notification types)
+- Ready for deployment (production build, static file serving)
+
+---
+
+**For more details, see the codebase and documentation files (e.g., GlassmorphismGuide.md).**
+
+---
+
+**Key Code Files, Paths, and Main Components/Functions**
+
+**Frontend (client/src):**
+- App.jsx (1-89): Main app, routing, theme provider
+- main.jsx (1-13): React entry point
+- index.css: Global styles (Tailwind)
+- layout/Layout.jsx (1-24): App layout wrapper
+- components/Navbar.jsx (1-389): Top navigation, notifications, theme toggle, user menu
+- components/Sidebar.jsx (1-267): Side navigation, user info
+- components/ThemeToggleButton.jsx (1-63): Theme switcher
+- components/GlassCard.jsx (1-40): Glassmorphism card
+- components/TransactionTable.jsx (1-391): Transaction list, edit/delete
+- components/TransactionForm.jsx (1-191): Add transaction form
+- components/Charts.jsx (1-223): Chart visualizations
+- components/LoadingSpinner.jsx (1-19): Loading indicator
+- components/ErrorBoundary.jsx (1-41): Error fallback
+- contexts/ThemeContext.jsx (1-48): Theme context/provider
+- utils/api.js (1-69): All API calls (auth, transactions, categories, notifications, contact)
+- utils/constants.js (1-11): App constants (e.g., default profile pic)
+- utils/storage.js (1-41): LocalStorage helpers
+- pages/Home.jsx (1-119): Landing page
+- pages/Register.jsx (1-379): Registration form
+- pages/Login.jsx (1-168): Login form
+- pages/Dashboard.jsx (1-152): User dashboard
+- pages/Expenses.jsx (1-159): Expenses and transactions
+- pages/Charts.jsx (1-24): Charts page
+- pages/Profile.jsx (1-628): User profile, stats, edit
+- pages/Contact.jsx (1-197): Contact support
+- assets/images/logo.png: App logo
+- docs/GlassmorphismGuide.md: UI design guide
+
+**Backend (server):**
+- server.js (1-70): Express app entry, MongoDB connection, route registration
+- routes/auth.js (1-265): Auth endpoints (register, login, profile)
+- routes/transactions.js (1-30): Transaction endpoints (CRUD, stats)
+- routes/categories.js (1-147): Category endpoints
+- routes/contact.js (1-22): Contact message endpoint
+- routes/notifications.js (1-22): Notification endpoints
+- controllers/transactionController.js (1-256): Transaction logic (add, get, update, delete, stats)
+- controllers/notificationController.js (1-49): Notification logic (get, create, mark as read)
+- models/User.js (1-75): User schema/model
+- models/Transaction.js (1-42): Transaction schema/model
+- models/Category.js (1-38): Category schema/model
+- models/Notification.js (1-30): Notification schema/model
+- models/ContactMessage.js (1-10): Contact message schema/model
+- middleware/auth.js (1-27): JWT authentication middleware
+- middleware/upload.js (1-38): File upload middleware
+- scripts/seed.js (1-101): Demo data seeding script
+
+**How to Use This Table:**
+- Each file path is relative to the project root.
+- Line numbers indicate where the main component/class/function is defined.
+- For more details, open the file at the given path and line. 

@@ -158,8 +158,99 @@ const getTransactionStats = async (req, res) => {
   }
 };
 
+// Update a transaction
+const updateTransaction = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { amount, type, category, note, date } = req.body;
+    const userId = req.user._id;
+
+    // Validate required fields
+    if (!amount || !type || !category) {
+      return res.status(400).json({ 
+        message: 'Amount, type, and category are required' 
+      });
+    }
+
+    // Validate amount
+    if (amount <= 0) {
+      return res.status(400).json({ 
+        message: 'Amount must be greater than 0' 
+      });
+    }
+
+    // Validate type
+    if (!['income', 'expense'].includes(type)) {
+      return res.status(400).json({ 
+        message: 'Type must be either "income" or "expense"' 
+      });
+    }
+
+    // Find and update the transaction
+    const transaction = await Transaction.findOneAndUpdate(
+      { _id: id, userId },
+      {
+        amount,
+        type,
+        category,
+        note,
+        date: date || new Date()
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!transaction) {
+      return res.status(404).json({ 
+        message: 'Transaction not found' 
+      });
+    }
+
+    res.json({
+      message: 'Transaction updated successfully',
+      transaction
+    });
+
+  } catch (error) {
+    console.error('Update transaction error:', error);
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid transaction ID' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Delete a transaction
+const deleteTransaction = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+
+    // Find and delete the transaction
+    const transaction = await Transaction.findOneAndDelete({ _id: id, userId });
+
+    if (!transaction) {
+      return res.status(404).json({ 
+        message: 'Transaction not found' 
+      });
+    }
+
+    res.json({
+      message: 'Transaction deleted successfully'
+    });
+
+  } catch (error) {
+    console.error('Delete transaction error:', error);
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid transaction ID' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   addTransaction,
   getTransactions,
-  getTransactionStats
+  getTransactionStats,
+  updateTransaction,
+  deleteTransaction
 }; 
